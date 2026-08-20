@@ -7,14 +7,11 @@ const ApiClient = (function() {
   const AZURE_BACKEND_URL = 'https://learnindepth-cvhda0bzgsgcfsdz.centralindia-01.azurewebsites.net';
 
   function getBaseUrl() {
+    // Frontend (Static Web App) and backend (App Service) are separate origins,
+    // so always target the backend. A manual override can be saved in localStorage.
     const saved = localStorage.getItem('learnindepth_api_url');
     if (saved) return saved;
-
-    const origin = window.location.origin;
-    if (!origin || origin.includes('file://') || origin.includes('127.0.0.1') || origin.includes('localhost')) {
-      return AZURE_BACKEND_URL;
-    }
-    return origin;
+    return AZURE_BACKEND_URL;
   }
 
   let baseUrl = getBaseUrl();
