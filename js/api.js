@@ -19,24 +19,30 @@ const ApiClient = (function() {
   // Storage keys
   const TOKEN_KEY = 'learnindepth_auth_token';
   const EMAIL_KEY = 'learnindepth_user_email';
+  const AUDIENCE_KEY = 'learnindepth_audience';
+  const DEFAULT_AUDIENCE = 'LearnInDepth_client';
 
   // Getters & Setters
   function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
   function getEmail() { return localStorage.getItem(EMAIL_KEY) || 'guest@learnindepth.local'; }
+  function getAudience() { return localStorage.getItem(AUDIENCE_KEY) || DEFAULT_AUDIENCE; }
   
-  function setSession(token, email) {
+  function setSession(token, email, audience) {
     if (token) localStorage.setItem(TOKEN_KEY, token);
     if (email) localStorage.setItem(EMAIL_KEY, email);
+    if (audience) localStorage.setItem(AUDIENCE_KEY, audience);
   }
 
   function clearSession() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(EMAIL_KEY);
+    localStorage.removeItem(AUDIENCE_KEY);
   }
 
   function getHeaders(contentType = 'application/json') {
     const headers = {
-      'x-uid': getEmail()
+      'x-uid': getEmail(),
+      'Audience': getAudience()
     };
     if (contentType) headers['Content-Type'] = contentType;
     const token = getToken();

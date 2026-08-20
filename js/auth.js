@@ -109,7 +109,7 @@ const AuthController = (function() {
 
       try {
         const res = await ApiClient.verifyOtp(email, otp);
-        ApiClient.setSession(res.authToken, res.email);
+        ApiClient.setSession(res.authToken, res.email, res.audience);
         updateUserUI();
         hideModal();
         App.showToast(`Signed in as ${res.email}`, 'success');
